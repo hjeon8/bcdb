@@ -1,0 +1,43 @@
+Sub EasyChallenge()
+
+Dim ws As Worksheet
+For Each ws In Worksheets
+
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Total Stock Volume"
+
+Dim i As Double
+Dim lastrow As Double
+Dim Sum As Double
+Dim Counter As Integer
+
+
+Sum = 0
+Counter = 2
+
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+For i = 2 To lastrow
+    
+    If Cells(i, 1).Value <> Cells(i + 1, 1).Value Then
+        Sum = Sum + Cells(i, 7).Value
+        
+        Cells(Counter, 9).Value = Cells(i, 1).Value
+        Cells(Counter, 10).Value = Sum
+        
+        Counter = Counter + 1
+        
+        Sum = 0
+        
+    Else
+        Sum = Sum + Cells(i, 7).Value
+    End If
+    
+Next i
+
+ws.Activate
+
+
+Next ws
+
+End Sub

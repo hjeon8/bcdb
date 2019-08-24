@@ -1,0 +1,109 @@
+Sub Hard()
+
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Yearly Change"
+Range("K1").Value = "Yearly Percent"
+Range("L1").Value = "Total Stock Volume"
+Range("O2").Value = "Greatest % increase"
+Range("O3").Value = "Greatest % Decrease"
+Range("O4").Value = "Greatest total volume"
+Range("P1").Value = "Ticker"
+Range("Q1").Value = "Value"
+
+
+Dim i As Double
+Dim lastrow As Double
+Dim YearlyChange As Double
+Dim YearlyPercent As Double
+Dim Counter As Double
+
+YearlyChange = 0
+YearlyPercent = 0
+TotalStockVolume = 0
+Counter = 2
+
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+For i = 2 To lastrow
+    
+    If Cells(i, 1).Value <> Cells(i + 1, 1).Value Then
+        YearlyChange = YearlyChange + Cells(i, 6).Value - Cells(i, 3).Value
+        
+        Cells(Counter, 9).Value = Cells(i, 1).Value
+        Cells(Counter, 10).Value = YearlyChange
+        
+        YearlyChange = YearlyChange + Cells(i, 6).Value - Cells(i, 3).Value
+        
+        YearlyChange = 0
+        
+        
+        
+        YearlyPercent = YearlyPercent + YearlyChange / Cells(Counter, 3).Value
+        Cells(Counter, 11).Value = YearlyPercent
+                
+        YearlyPercent = YearlyPercent + YearlyChange / Cells(Counter, 3).Value
+                
+        
+        YearlyPercent = 0
+
+
+
+        TotalStockVolume = TotalStockVolume + Cells(i, 7).Value
+        
+        Cells(Counter, 12).Value = TotalStockVolume
+        
+        Counter = Counter + 1
+        TotalStockVolume = 0
+
+        
+        
+    Else
+        YearlyChange = YearlyChange + Cells(i, 6).Value - Cells(i, 3).Value
+        YearlyPercent = YearlyChange / Cells(Counter, 3).Value
+        TotalStockVolume = TotalStockVolume + Cells(i, 7).Value
+
+
+    End If
+    
+Next i
+
+    Dim rg As Range
+    Dim g As Long
+    Dim c As Long
+    Dim color_cell As Range
+    
+    Set rg = Range("J2", Range("J2").End(xlDown))
+    c = rg.Cells.Count
+    
+    For g = 1 To c
+    Set color_cell = rg(g)
+    Select Case color_cell
+        Case Is >= 0
+            With color_cell
+                .Interior.ColorIndex = 4
+            End With
+        Case Is < 0
+            With color_cell
+                .Interior.ColorIndex = 3
+            End With
+       End Select
+    Next g
+
+
+Cells(2, 17).Value = WorksheetFunction.Max(Range("K:K"))
+Cells(2, 16).Value = WorksheetFunction.Index(Range("I:I"), WorksheetFunction.Match(Range("Q2"), Range("K:K"), 0))
+
+
+Cells(3, 17).Value = WorksheetFunction.Min(Range("K:K"))
+Cells(3, 16).Value = WorksheetFunction.Index(Range("I:I"), WorksheetFunction.Match(Range("Q3"), Range("K:K"), 0))
+
+
+Cells(4, 17).Value = WorksheetFunction.Max(Range("L:L"))
+Cells(4, 16).Value = WorksheetFunction.Index(Range("I:I"), WorksheetFunction.Match(Range("Q4"), Range("L:L"), 0))
+
+
+
+Columns("K").NumberFormat = "0.00%"
+Range("Q2:Q3").NumberFormat = "0.00%"
+
+End Sub
+
