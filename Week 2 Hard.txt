@@ -31,16 +31,12 @@ For i = 2 To lastrow
         Cells(Counter, 9).Value = Cells(i, 1).Value
         Cells(Counter, 10).Value = YearlyChange
         
-        YearlyChange = YearlyChange + Cells(i, 6).Value - Cells(i, 3).Value
-        
         YearlyChange = 0
         
         
         
         YearlyPercent = YearlyPercent + YearlyChange / Cells(Counter, 3).Value
         Cells(Counter, 11).Value = YearlyPercent
-                
-        YearlyPercent = YearlyPercent + YearlyChange / Cells(Counter, 3).Value
                 
         
         YearlyPercent = 0
